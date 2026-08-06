@@ -1,6 +1,6 @@
 # GBE Sales & Customer Analytics Dashboard
 
-Capstone project: end-to-end BI analytics for a fictitious global electronics
+End-to-end BI analytics for a fictitious global electronics
 retailer (GBE) — from SQL Server data modeling to an interactive Power BI
 dashboard, covering sales performance, customer segmentation, and delivery
 operations.
@@ -43,7 +43,6 @@ do about each?**
 ---
 
 ## Dataset Overview
-
 **Dataset link:** Documentation Folder → Case study collection
 
 Sales data for a fictitious global electronics retailer, including tables
@@ -52,6 +51,8 @@ currency exchange rates. This case study aims to provide a comprehensive
 understanding of the business performance of a global electronics retailer,
 identify key drivers, and offer actionable recommendations for profit
 optimization and customer engagement.
+
+**Sales**
 
 | Table | Field | Description |
 |---|---|---|
@@ -64,6 +65,11 @@ optimization and customer engagement.
 | Sales | ProductKey | Unique key identifying which product was purchased |
 | Sales | Quantity | Number of items purchased |
 | Sales | Currency Code | Currency used to process the order |
+
+**Customers**
+
+| Table | Field | Description |
+|---|---|---|
 | Customers | CustomerKey | Primary key to identify customers |
 | Customers | Gender | Customer gender |
 | Customers | Name | Customer full name |
@@ -74,6 +80,11 @@ optimization and customer engagement.
 | Customers | Country | Customer country |
 | Customers | Continent | Customer continent |
 | Customers | Birthday | Customer date of birth |
+
+**Products**
+
+| Table | Field | Description |
+|---|---|---|
 | Products | ProductKey | Primary key to identify products |
 | Products | Product Name | Product name |
 | Products | Brand | Product brand |
@@ -82,11 +93,21 @@ optimization and customer engagement.
 | Products | Unit Price USD | Product list price in USD |
 | Products | Subcategory | Product subcategory name |
 | Products | Category | Product category name |
+
+**Stores**
+
+| Table | Field | Description |
+|---|---|---|
 | Stores | StoreKey | Primary key to identify stores (0 = Online) |
 | Stores | Country | Store country |
 | Stores | State | Store state |
 | Stores | Square Meters | Store footprint in square meters |
 | Stores | Open Date | Store open date |
+
+**Exchange Rates**
+
+| Table | Field | Description |
+|---|---|---|
 | Exchange Rates | Date | Date |
 | Exchange Rates | Currency | Currency code |
 | Exchange Rates | Exchange | Exchange rate compared to USD |
@@ -95,12 +116,12 @@ optimization and customer engagement.
 
 ## Executive Summary & Recommendation
 
-| Strategic Theme | Business Issue | Recommendation |
+| Strategic Theme | Result / Business Issue | Recommendation |
 |---|---|---|
-| **Seasonality & Channel Mix** | Order volume, revenue and profit show a sharp, recurring dip every April and a spike every Nov–Dec across all 6 years — the pattern holds at the overall level and repeats within every category/subcategory, so it's a platform-wide demand cycle, not a category quirk. Online's revenue share has grown steadily from ~17% (2016) to ~28% (2021), and Online AOV now tracks almost identically with Offline AOV. | Build inventory and marketing calendars around the Nov–Dec peak and the April trough (targeted promotions to smooth the trough). Continue shifting investment toward Online — the AOV gap with Offline has closed, so channel economics no longer justify prioritizing Offline. |
-| **Customer Retention & Segmentation** | RFM segmentation surfaces distinct, actionable groups (Champions, Loyal, At Risk, Cant Lose Them, About to Sleep, etc.) with very different value profiles. Quarterly cohort retention appears to "recover" strongly around 2018–2019 and collapse in 2020–2021 — but this pattern lines up almost exactly with the company's overall order-volume boom/bust cycle, meaning raw retention rate is confounded by platform-wide growth, not pure cohort loyalty. | Target win-back and loyalty offers specifically at *At Risk* / *Cant Lose Them* (high monetary value, declining recency) rather than broad campaigns. Before using cohort retention to judge a loyalty initiative, normalize it against total platform order volume for that period so growth-cycle effects aren't mistaken for improved retention. |
-| **Product Portfolio Optimization** | The Computers category (led by Desktops) alone drives ~45% of company profit/revenue by 2021 — a concentration risk. The long tail ("Others") still accounts for ~50% of overall subcategory revenue but is fragmented across many small subcategories. Profit margin is stable (~58–62%) across most subcategories except Refrigerators, which dropped to ~52% in 2021. | Reduce dependency on Desktops by actively growing 2–3 secondary subcategories (e.g., Televisions, Projectors & Screens) that already show healthy margin and consistent YoY growth. Investigate the Refrigerators margin drop before it recurs. Use bundling/cross-sell (e.g., pairing high-AOV appliances with accessories) to lift AOV in the long tail. |
-| **Delivery & Operational Excellence** | Average online delivery lead time improved substantially, from ~8 days (2016) to ~4 days (2020–2021), and has converged close to the overall benchmark line. A few countries and a mid-2018 period still spike above benchmark. | Formalize a ~4-day SLA target based on the current benchmark. Set up ongoing monitoring to flag any country/category that drifts above benchmark, and review the 2018 spike as a root-cause case study to prevent recurrence. |
+| **Seasonality & Channel Mix** | Sales drop every April and spike every Nov–Dec, every year, across all categories. Online revenue share grew from ~17% to ~28% (2016–2021), and Online AOV is now almost equal to Offline AOV. | Plan inventory and promotions around this yearly cycle — push offers in April to fill the gap, prepare stock for Nov–Dec. Keep investing in Online; it's no longer the smaller, lower-value channel it used to be. |
+| **Customer Retention** | RFM segmentation clearly separates customers by value (Champions, At Risk, Cant Lose Them, etc). Cohort retention looks like it "improves" in 2018–2019 and "drops" in 2020–2021 — but this just mirrors the company's overall sales boom and bust in those years, not real changes in loyalty. | Focus win-back offers on *At Risk* and *Cant Lose Them* customers — they still have high spend but haven't purchased recently. Don't read the retention trend at face value; adjust for overall business growth first. |
+| **Product Portfolio** | Computers (mainly Desktops) alone drives ~45% of total profit — high concentration risk in one category. Refrigerators' profit margin dropped from ~60% to ~52% in 2021. | Grow 2–3 secondary categories (e.g. Televisions, Projectors & Screens) to reduce reliance on Desktops. Investigate why Refrigerators' margin dropped before it happens again. |
+| **Delivery Performance** | Average delivery time improved from ~8 days (2016) to ~4 days (2020–2021), now close to benchmark. A few countries and a spike around 2018 still exceed it. | Set a ~4-day delivery SLA as the standard. Track delivery time by country/category monthly to catch and fix outliers early. |
 
 ---
 
@@ -125,4 +146,9 @@ Star schema built via SQL views:
 | `vw_Customer_RFM` | Analysis | RFM scores & segments per customer |
 | `vw_Cohort_Retention` | Analysis | Quarterly cohort retention rates |
 
-## Repository Structure
+## Dashboard Pages (Detailed Analysis)
+
+1. **Overview** — KPI summary, revenue trend, category/channel/country breakdown
+2. **Sales** — Seasonal trend, YoY growth drivers, channel comparison
+3. **Customer** — RFM segmentation, demographics, cohort retention heatmap
+4. **Delivery** — Delivery lead time trend, benchmark comparison by country/category
